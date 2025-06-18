@@ -1,0 +1,22 @@
+{
+  "name": "inventory-bot",
+  "version": "1.0.0",
+  "description": "",
+  "license": "ISC",
+  "author": "",
+  "type": "commonjs",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "nodemon app.js"
+  },
+  "dependencies": {
+    "axios": "^1.10.0",
+    "dotenv": "^16.5.0",
+    "qrcode-terminal": "^0.12.0",
+    "whatsapp-web.js": "^1.30.0"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.10"
+  }
+}
