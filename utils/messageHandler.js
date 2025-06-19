@@ -11,7 +11,7 @@ const { uploadToShopify } = require('./shopify');
 // ... (BRANCH_NAMES, TARGET_USERS, CATEGORY_DATA, and helper functions remain the same) ...
 const BRANCH_NAMES = { [ID_C1]:"Copacabana 1", [ID_C2]:"Copacabana 2", [ID_M3]:"Medellín 1"};
 const TARGET_USERS = [ID_C1, ID_C2, ID_M3];
-const CATEGORY_DATA = { numeric: ['zapato', 'botin', 'bolichero', 'mocasin', 'teni', 'sandalia', 'sueco', 'baleta', 'forche'], alpha: ['chaqueta', 'gorra', 'boina', 'guantes'], unique: ['correa', 'bolso', 'bolsas', 'morrales', 'manoslibres', 'pecheras', 'monederas', 'billeteras', 'aretes', 'portadocumentos', 'llaveros', 'riñoneras', 'portacelulares', 'cuidado']};
+const CATEGORY_DATA = { numeric: ['zapato', 'botin', 'bolichero', 'mocasin', 'teni', 'sandalia', 'sueco', 'baleta', 'forche'], alpha: ['chaqueta', 'gorra', 'boina', 'guantes'], unique: ['correa', 'bolso', 'bolsa', 'morral', 'manoslibres', 'pechera', 'monedera', 'billetera', 'areta', 'portadocumento', 'llavero', 'riñonera', 'portacelular', 'cuidado']};
 function parseHostMessage(body) { const regex = /^(.*)#(\S+)\s*-\s*([0-9.,$]+)$/; const match = body.match(regex); if (!match) return null; const description = match[1].trim(); const reference = match[2].trim(); const priceStr = match[3].trim(); const price = parseInt(priceStr.replace(/[.,$]/g, '')); if (isNaN(price)) return null; return { description: description.charAt(0).toUpperCase() + description.slice(1), reference, price }; }
 function autoDetectCategory(description) { const lowerCaseDesc = description.toLowerCase(); for (const keyword of CATEGORY_DATA.numeric) { if (lowerCaseDesc.includes(keyword)) return keyword; } for (const keyword of CATEGORY_DATA.alpha) { if (lowerCaseDesc.includes(keyword)) return keyword; } for (const keyword of CATEGORY_DATA.unique) { if (lowerCaseDesc.includes(keyword)) return keyword; } return 'accesorio'; }
 function getValidVariantsForCategory(category) { if (CATEGORY_DATA.numeric.includes(category)) { return Array.from({ length: 16 }, (_, i) => String(33 + i)); } if (CATEGORY_DATA.alpha.includes(category)) { return ['XS', 'S', 'M', 'L', 'XL', 'XXL']; } return ['U']; }
@@ -42,7 +42,7 @@ Envía un mensaje que contenga:
 2.  El texto en el formato: \`DESCRIPCIÓN #REFERENCIA - PRECIO\`
 
 *Ejemplo:*
-\`Botines de cuero para dama #B-78-N - 150000\`
+\`Botines de cuero para dama #678 - 150000\`
 
 _El bot detectará la categoría automáticamente desde la descripción._
 _El anfitrión puede cancelar el proceso en cualquier momento enviando ✖️_`;

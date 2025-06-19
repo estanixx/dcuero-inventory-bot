@@ -3,15 +3,22 @@ const qrcode = require('qrcode-terminal');
 
 console.log("Starting ID retriever...");
 
-const client = new Client({
-    authStrategy: new LocalAuth({ 
-      clientId: "get-ids"
-    }),
+  const client = new Client({
+    authStrategy: new LocalAuth(),
+    webVersionCache: {
+      type: "remote",
+      remotePath: `https://raw.githubusercontent.com/wppconnect-team/wa-version/main/html/2.2412.54.html`,
+    },
     puppeteer: {
-      headless: true,
-      executablePath: '/usr/bin/google-chrome-stable',
-    }
-});
+      headless: true, // Run in the background
+      executablePath: "/usr/bin/google-chrome",
+      args: [
+        "--no-sandbox",
+        "--disable-setuid-sandbox",
+        "--disable-extensions",
+      ],
+    },
+  });
 
 client.on('qr', (qr) => {
     console.log('Scan this QR code with your phone:');
