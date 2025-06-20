@@ -46,7 +46,7 @@ async function uploadToShopify(productData) {
         product: {
             title: productData.description,
             body_html: `Referencia: ${productData.reference}`,
-            vendor: "Your Brand Name",
+            vendor: "Dcuero Boutique",
             product_type: productData.category,
             status: "active",
             
