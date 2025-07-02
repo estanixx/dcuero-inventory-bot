@@ -1,4 +1,4 @@
-.env
+.env*
 workflow_log.json
 .wwebjs_auth
 .wwebjs_cache

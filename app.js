@@ -2,7 +2,7 @@
  * @file Main application file for the WhatsApp Bot.
  */
 
-require('dotenv').config();
+require('dotenv').config({ path: './.env' }); // Load environment variables from .env.local
 
 const { initializeClient } = require('./utils/client');
 const { handleMessage, startHostWaitLoop } = require('./utils/messageHandler');
@@ -29,7 +29,9 @@ async function startBot() {
     });
 
     // All logic is now handled by the unified handleMessage function
-    client.on('message', (message) => handleMessage(message, client));
+    client.on('message_create', (message) => {
+        handleMessage(message, client);
+    });
 
     await client.initialize();
 }

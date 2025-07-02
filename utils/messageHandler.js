@@ -35,11 +35,12 @@ const CATEGORY_DATA = {
   ],
   alpha: ["chaqueta", "gorra", "boina", "guantes"],
   unique: [
+    "combo",
     "correa",
     "bolso",
     "bolsa",
     "morral",
-    "manoslibres",
+    "manos libres",
     "mariconera",
     "pechera",
     "monedera",
@@ -257,8 +258,8 @@ function getExampleForCategory(category) {
 
 async function handleMessage(message, client) {
   if (
-    message.fromMe ||
-    message.from !== GROUP_ID ||
+    (message.fromMe && !message?._data?.id?.participant) ||
+    ![message.from, message.to].includes(GROUP_ID) ||
     !["chat", "image"].includes(message.type)
   )
     return;
@@ -355,8 +356,8 @@ async function handleMessage(message, client) {
 
       if (invalidParts.length > 0) {
         await message.react("😵");
-        return client.sendMessage(
-          message.from,
+        return await client.sendMessage(
+          GROUP_ID,
           `Entrada inválida: *${invalidParts.join(
             ", "
           )}*. Revise las tallas y el formato (TALLA:CANTIDAD).`
@@ -373,7 +374,7 @@ async function handleMessage(message, client) {
       );
       if (allResponsesReceived) {
         const summaryText = generateSummaryMessage();
-        if (activeProductWorkflow.summaryMessageId) {
+        if (activeProductWorkflow.summaryMessageId && activeProductWorkflow.summaryMessageId != 'EMPTY') {
           try {
             await (
               await client.getMessageById(
@@ -382,11 +383,11 @@ async function handleMessage(message, client) {
             ).edit(summaryText);
           } catch (err) {
             const m = await client.sendMessage(GROUP_ID, summaryText);
-            activeProductWorkflow.summaryMessageId = m.id._serialized;
+            activeProductWorkflow.summaryMessageId = m?.id?._serialized || 'EMPTY';
           }
         } else {
           const m = await client.sendMessage(GROUP_ID, summaryText);
-          activeProductWorkflow.summaryMessageId = m.id._serialized;
+          activeProductWorkflow.summaryMessageId = m?.id?._serialized || 'EMPTY';
         }
       }
     }
