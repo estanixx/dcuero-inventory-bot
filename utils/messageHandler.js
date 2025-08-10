@@ -32,9 +32,11 @@ const CATEGORY_DATA = {
     "forché",
     "mocasín",
     "botín",
+    "colegial",
   ],
   alpha: ["chaqueta", "gorra", "boina", "guantes"],
   unique: [
+    "cross over",
     "combo",
     "correa",
     "bolso",
